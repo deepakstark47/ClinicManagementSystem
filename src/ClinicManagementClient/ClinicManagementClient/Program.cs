@@ -43,11 +43,12 @@ namespace ClinicManagementClient
                         Console.WriteLine("2.Add Patient");
                         Console.WriteLine("3.Schedule Appointment");
                         Console.WriteLine("4.Cancel Appointment");
-                        Console.WriteLine("5.Logout");
+                        Console.WriteLine("5.Display All Patients");
+                        Console.WriteLine("6.Logout");
                         Console.WriteLine("-----------------------------------");
                         Console.WriteLine("Enter the option");
                         int option = Convert.ToInt32(Console.ReadLine());
-                        if (option == 5)
+                        if (option == 6)
                         {
                             break;
                         }
@@ -123,8 +124,10 @@ namespace ClinicManagementClient
                                     
                                         sa.ValidateScheduleAppointment(pid, spec);
                                         List<Doctor> doc = sa.displayDoctorsBasedOnSpecialization(spec);
+                                        List<int> validDocIds = new List<int>();
                                         foreach (Doctor d in doc)
                                         {
+                                            validDocIds.Add(d.doctorId);
                                             Console.WriteLine("-------------------------------------");
                                             Console.WriteLine($"doctor id : {d.doctorId} \nfirstName : {d.firstName}\n" +
                                                 $"lastName : {d.lastName} \nsex : {d.sex} \nspecialization : {d.specialization} " +
@@ -132,19 +135,23 @@ namespace ClinicManagementClient
 
                                             Console.WriteLine("-------------------------------------");
                                         }
-                                        Console.WriteLine("The available dates for booking are  : [26/08/2022,27/08/2022,28/08/2022,29/08/2022]");
+                                        Console.WriteLine("The available dates for booking are  : [26/08/2022 to 03/08/2022]");
                                         Console.WriteLine("Enter the Date of Appointment");
                                         string dateofapp = Console.ReadLine();
                                         sa.ValidateIndianFormatDate(dateofapp);
+                                        sa.ValidateDateForApp(dateofapp);
                                         Console.WriteLine("Enter the Doctor id");
                                         int docid = Convert.ToInt32(Console.ReadLine());
+                                        sa.validateDoctorId(docid, validDocIds);
                                         DateTime dateofappointment = DateTime.Parse(dateofapp);
                                         List<Appointment> app = sa.getAllSlotsForDoctor(docid, dateofappointment);
                                         Console.WriteLine("-------------------------------------");
                                         Console.WriteLine("The available slots are");
                                         Console.WriteLine("-------------------------------------");
+                                        List<int> validAppointments = new List<int>();
                                         foreach (Appointment a in app)
                                             {
+                                                validAppointments.Add(a.appId);
                                                 Console.WriteLine("-------------------------------------");
                                                 Console.WriteLine($"Appointment id : {a.appId} \nDoctor id : {a.doctorId}\n" +
                                                     $"Date : {a.visitingDate} \nAppointment Time : {a.appTime} \nStatus : {a.appStatus} " +
@@ -155,7 +162,7 @@ namespace ClinicManagementClient
                                             Console.WriteLine("-----------------------------------");
                                             Console.WriteLine("Enter the appointmentId");
                                             int appointmentId = Convert.ToInt32(Console.ReadLine());
-                                            sa.bookAppointment(appointmentId, pid);
+                                            sa.bookAppointment(appointmentId, pid,validAppointments);
                                             Console.WriteLine("Apoointment successfully booked for patient id " + pid);
                                             Console.WriteLine("Your appointment id is " + appointmentId);
                                             
@@ -179,10 +186,11 @@ namespace ClinicManagementClient
                                         int pid = Convert.ToInt32(Console.ReadLine());
                                 
                                         cs.ValidatePatientId(pid);
-                                        Console.WriteLine("The available dates for cancellation  are : [26/08/2022,27/08/2022,28/08/2022,29/08/2022]");
+                                        Console.WriteLine("The available dates for cancellation  are : [26/08/2022 to 03/08/2022]");
                                         Console.WriteLine("Enter the Cancel date");
                                         string date = Console.ReadLine();
                                         cs.ValidateIndianFormatDate(date);
+                                        cs.ValidateDateForApp(date);
                                         
                                         DateTime dt = Convert.ToDateTime(date);
                                         List<Appointment> appP = cs.displayAppointmentsOfPatient(pid, dt);
@@ -221,8 +229,23 @@ namespace ClinicManagementClient
                                     }
                                     break;
                                 }
+                            case 5:
+                                {
+                                    List<Patient> patient = home.viewPatients();
+                                    foreach (Patient p in patient)
+                                    {
+                                        Console.WriteLine("-------------------------------------");
+                                        Console.WriteLine($"patient id : {p.patientId} \nfirstName : {p.firstName}\n" +
+                                            $"lastName : {p.lastName} \nsex : {p.sex} \nage : {p.age} " +
+                                            $"\nDate Of Birth : {p.dob}");
+
+                                        Console.WriteLine("-------------------------------------");
+                                    }
+                                    break;
+                                }
                             default:
                                 {
+                                    Console.WriteLine("Please enter valid option");
                                     break;
                                 }
                         }

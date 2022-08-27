@@ -15,5 +15,8 @@ namespace ClinicManagementLibrary
         public bool ValidatePatientId(int patientId);
 
         public bool ValidateIndianFormatDate(string date1);
+
+        public bool ValidateDateForApp(string date);
+        
     }
 }

@@ -12,11 +12,15 @@ namespace ClinicManagementLibrary
       
         public List<Appointment> getAllSlotsForDoctor(int docid, DateTime day);
 
-        public int bookAppointment(int aptId,int patientId);
+        public int bookAppointment(int aptId,int patientId,List<int> validAppointmentIds);
 
         public bool ValidateScheduleAppointment(int patientId, string spec);
 
         public bool ValidateIndianFormatDate(string date1);
+
+        public bool ValidateDateForApp(string date);
+
+        public bool validateDoctorId(int docid, List<int> validDocIds);
 
         }
 }

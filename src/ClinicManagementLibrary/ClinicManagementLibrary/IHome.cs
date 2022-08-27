@@ -15,6 +15,8 @@ namespace ClinicManagementLibrary
         public bool validatePatient( string firstName,
             string lastName, string sex, int age, string dob);
 
+        public List<Patient> viewPatients();
+
 
     }
 }

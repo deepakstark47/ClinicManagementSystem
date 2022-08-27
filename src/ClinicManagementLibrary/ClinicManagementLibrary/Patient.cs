@@ -33,7 +33,6 @@ namespace ClinicManagementLibrary
         public Patient(string firstName,
             string lastName, string sex, int age, DateTime dob)
         {
-            this.patientId = patientId;
             this.firstName = firstName;
             this.lastName = lastName;
             this.sex = sex;

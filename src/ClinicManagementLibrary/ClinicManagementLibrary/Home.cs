@@ -11,7 +11,6 @@ namespace ClinicManagementLibrary
 {
     public class Home : IHome
     {
-        List<Doctor> allDoctors = new List<Doctor>();
         static SqlConnection conn;
         static SqlCommand comm;
         static SqlCommand comm1;
@@ -24,6 +23,7 @@ namespace ClinicManagementLibrary
         }
         public List<Doctor> viewDoctors()
         {
+            List<Doctor> allDoctors = new List<Doctor>();
             conn = getConnection();
             comm = new SqlCommand("select * from doctors", conn);
             SqlDataReader dr = comm.ExecuteReader();
@@ -106,9 +106,36 @@ namespace ClinicManagementLibrary
             return success;
         }
 
+        public List<Patient> viewPatients()
+        {
+            List<Patient> allPatients = new List<Patient>();
+            conn = getConnection();
+            comm = new SqlCommand("select * from patients", conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            int patientId;
+            string firstName;
+            string lastName;
+            string sex;
+            int age;
+            DateTime dob;
 
 
+            while (dr.Read())
+            {
+                patientId = dr.GetInt32(0);
+                firstName = dr.GetString(1);
+                lastName = dr.GetString(2);
+                sex = dr.GetString(3);
+                age = dr.GetInt32(4);
+                dob = dr.GetDateTime(5);
+
+                Patient p = new Patient(patientId, firstName, lastName, sex, age, dob);
+
+                allPatients.Add(p);
 
 
+            }
+            return allPatients;
+        }
     }
 }

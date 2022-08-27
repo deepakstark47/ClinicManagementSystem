@@ -81,5 +81,16 @@ namespace ClinicManagementLibrary
 
             return true;
         }
+
+        public bool ValidateDateForApp(string date)
+        {
+            List<string> ValidDates = new List<string>() { "26/08/2022","27/08/2022" ,"28/08/2022",
+                "29/08/2022", "30/08/2022", "31/08/2022","01/09/2022","02/09/2022","03/09/2022" };
+            if (ValidDates.Contains(date))
+            {
+                return true;
+            }
+            throw new ValidDateException("Pls Enter Date Between 26/08/2022 - 03/09/2022");
+        }
     }
 }

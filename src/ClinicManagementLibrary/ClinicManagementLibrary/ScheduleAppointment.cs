@@ -122,8 +122,12 @@ namespace ClinicManagementLibrary
 
         }
 
-        public int bookAppointment(int aptId,int patientId)
+        public int bookAppointment(int aptId,int patientId,List<int> validAppointmentIds)
         {
+            if (!validAppointmentIds.Contains(aptId))
+            {
+                throw new AppointmentIdNotValidException("Appointment id not valid pls enter valid id");
+            }
             conn = getConnection();
             comm = new SqlCommand("update appointments set apt_status='booked',patient_id=@patientId where aptId=@aptId", conn);
             comm.Parameters.AddWithValue("@aptId",aptId);
@@ -134,6 +138,26 @@ namespace ClinicManagementLibrary
                 return success;
             }
             throw new AppointmentIdNotValidException("Appointment id not valid pls enter valid id");
+        }
+
+        public bool ValidateDateForApp(string date)
+        {
+            List<string> ValidDates = new List<string>() { "26/08/2022","27/08/2022" ,"28/08/2022", 
+                "29/08/2022", "30/08/2022", "31/08/2022","01/09/2022","02/09/2022","03/09/2022" };
+            if (ValidDates.Contains(date))
+            {
+                return true;
+            }
+            throw new ValidDateException("Pls Enter Date Between 26/08/2022 - 03/09/2022");
+        }
+
+        public bool validateDoctorId(int docid,List<int> validDocIds)
+        {
+            if (validDocIds.Contains(docid))
+            {
+                return true;
+            }
+            throw new ValidDoctorIdException("Doctor id is not under given specialization or doctor id does not exist");  
         }
 
     }
