@@ -115,6 +115,10 @@ namespace ClinicManagementLibrary
             comm.Parameters.AddWithValue("@docid", docid);
             comm.Parameters.AddWithValue("@date", date);
             SqlDataReader dr =comm.ExecuteReader();
+            if (!dr.HasRows)
+            {
+                throw new NoSlotAvailableException("No free slots are avilable for the doctor on this date!!");
+            }
             while (dr.Read())
             { 
                 Appointments.Add(new Appointment(dr.GetInt32(0),dr.GetInt32(1),dr.GetDateTime(2),

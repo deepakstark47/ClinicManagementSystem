@@ -8,17 +8,17 @@ namespace ClinicManagementClient
         public static void Main(string[] args)
         {
             Console.WriteLine("-----------------------------------");
+            Console.WriteLine("***********************************");
             Console.WriteLine("Welcome to Clinic Management System");
+            Console.WriteLine("***********************************");
             Console.WriteLine("-----------------------------------");
             while (true)
             {
-
-                try
+            try
                 {
-
-                    Console.WriteLine("-----------------------------------");
-
+                Console.WriteLine("***********************************");
                 Console.WriteLine("Login Page");
+                Console.WriteLine("***********************************");
                 Console.WriteLine("Enter the username:");
                 string username = Console.ReadLine();
                 Console.WriteLine("Enter the password:");
@@ -32,18 +32,18 @@ namespace ClinicManagementClient
                     Console.WriteLine("-----------------------------------");
                     Console.WriteLine("Login Successful");
                     Console.WriteLine("-----------------------------------");
-                    Console.WriteLine("Home Page");
-                    Console.WriteLine("-----------------------------------");
+                    
                     while (true)
                     {
-                        Console.WriteLine("-----------------------------------");
-                        Console.WriteLine("-----------------------------------");
-
+                        Console.WriteLine("***********************************");
+                        Console.WriteLine("Home Page");
+                        Console.WriteLine("***********************************");
+                        
                         Console.WriteLine("1.View All Doctors");
                         Console.WriteLine("2.Add Patient");
                         Console.WriteLine("3.Schedule Appointment");
                         Console.WriteLine("4.Cancel Appointment");
-                        Console.WriteLine("5.Display All Patients");
+                        Console.WriteLine("5.View All Patients");
                         Console.WriteLine("6.Logout");
                         Console.WriteLine("-----------------------------------");
                         Console.WriteLine("Enter the option");
@@ -57,6 +57,10 @@ namespace ClinicManagementClient
                             case 1:
                                 {
                                     List<Doctor> doc = home.viewDoctors();
+                                    Console.WriteLine("-----------------------------------");
+                                    Console.WriteLine("Doctors in the clinic");
+                                    Console.WriteLine("-----------------------------------");
+
                                     foreach (Doctor d in doc)
                                     {
                                         Console.WriteLine("-------------------------------------");
@@ -73,29 +77,36 @@ namespace ClinicManagementClient
                                 {
                                     try
                                     {
-                                        Console.WriteLine("-------------------------------------");
-                                    Console.WriteLine("Enter the firstname:");
-                                    string firstName = Console.ReadLine();
-                                    Console.WriteLine("Enter the lastname:");
-                                    string lastName = Console.ReadLine();
-                                    Console.WriteLine("Enter the sex:");
-                                    string sex = Console.ReadLine();
-                                    Console.WriteLine("Enter the age:");
-                                    int age = Convert.ToInt32(Console.ReadLine());
-                                    Console.WriteLine("Enter the dob:");
-                                    string dob = Console.ReadLine();
+                                     Console.WriteLine("-----------------------------------");
+                                     Console.WriteLine("Add new patient");
+                                     Console.WriteLine("-----------------------------------");
+                                     Console.WriteLine("Enter the firstname:");
+                                     string firstName = Console.ReadLine();
+                                     Console.WriteLine("Enter the lastname:");
+                                     string lastName = Console.ReadLine();
+                                     Console.WriteLine("Enter the sex:");
+                                     string sex = Console.ReadLine();
+                                     Console.WriteLine("Enter the age:");
+                                     int age = Convert.ToInt32(Console.ReadLine());
+                                     Console.WriteLine("Enter the dob:");
+                                     string dob = Console.ReadLine();
                                     
-                                    home.validatePatient(firstName, lastName, sex, age, dob);
+                                     home.validatePatient(firstName, lastName, sex, age, dob);
                                             DateTime dateofbirth = Convert.ToDateTime(dob);
                                             Patient p = new Patient(firstName, lastName, sex, age, dateofbirth);
                                             int returnedid;
                                             int result = home.addPatient(p, out returnedid);
                                             if (result == 1)
                                             {
-                                                Console.WriteLine("Patient " + firstName + " was inserted successfully");
-                                                Console.WriteLine("The patient id is :" + returnedid);
-                                            }
-                                            else
+                                            Console.WriteLine("-----------------------------------");
+
+                                            Console.WriteLine("Patient " + firstName + " was inserted successfully");
+                                            
+                                            Console.WriteLine("The patient id is :" + returnedid);
+                                            Console.WriteLine("-----------------------------------");
+
+                                        }
+                                        else
                                             {
                                                 Console.WriteLine("Patient is not inserted!! server error");
                                             }
@@ -113,7 +124,11 @@ namespace ClinicManagementClient
                                 {
                                     try
                                     {
-                                        Console.WriteLine("-------------------------------------");
+                                    Console.WriteLine("-------------------------------------");
+                                    Console.WriteLine("Schedule Appointment");
+
+                                    Console.WriteLine("-------------------------------------");
+
                                     Console.WriteLine("Enter the patient id");
                                     int pid = Convert.ToInt32(Console.ReadLine());
                                     Console.WriteLine("-------------------------------------");
@@ -154,7 +169,7 @@ namespace ClinicManagementClient
                                                 validAppointments.Add(a.appId);
                                                 Console.WriteLine("-------------------------------------");
                                                 Console.WriteLine($"Appointment id : {a.appId} \nDoctor id : {a.doctorId}\n" +
-                                                    $"Date : {a.visitingDate} \nAppointment Time : {a.appTime} \nStatus : {a.appStatus} " +
+                                                    $"Date : {a.visitingDate.ToShortDateString()} \nAppointment Time : {a.appTime} \nStatus : {a.appStatus} " +
                                                     $"\nPatient id : {a.patientId} ");
 
                                                 Console.WriteLine("-------------------------------------");
@@ -182,6 +197,10 @@ namespace ClinicManagementClient
                                 {
                                     try
                                     {
+                                        Console.WriteLine("-------------------------------------");
+                                        Console.WriteLine("Cancel the appointment");
+                                        Console.WriteLine("-------------------------------------");
+
                                         Console.WriteLine("Enter the patient id");
                                         int pid = Convert.ToInt32(Console.ReadLine());
                                 
@@ -194,32 +213,24 @@ namespace ClinicManagementClient
                                         
                                         DateTime dt = Convert.ToDateTime(date);
                                         List<Appointment> appP = cs.displayAppointmentsOfPatient(pid, dt);
-                                        if (appP.Count == 0)
-                                           {
-                                                Console.WriteLine("Patient has no appointments!!!");
-                                           }
-                                        else
+                                        Console.WriteLine("-------------------------------------");
+                                        Console.WriteLine("The booked appointments are");
+                                        Console.WriteLine("-------------------------------------");
+                                        foreach (Appointment a in appP)
                                             {
-                                                Console.WriteLine("-------------------------------------");
-                                                Console.WriteLine("The booked appointments are");
-                                                Console.WriteLine("-------------------------------------");
-                                                foreach (Appointment a in appP)
-                                                {
                                                     Console.WriteLine("-------------------------------------");
                                                     Console.WriteLine($"Appointment id : {a.appId} \nDoctor id : {a.doctorId}\n" +
-                                                        $"Date : {a.visitingDate} \nAppointment Time : {a.appTime} \nStatus : {a.appStatus} " +
+                                                        $"Date : {a.visitingDate.ToShortDateString()} \nAppointment Time : {a.appTime} \nStatus : {a.appStatus} " +
                                                         $"\nPatient id : {a.patientId} ");
 
                                                     Console.WriteLine("-------------------------------------");
-                                                }
-                                                Console.WriteLine("-----------------------------------");
-
-                                                Console.WriteLine("Enter the appointment id to cancel");
-                                                int appid = Convert.ToInt32(Console.ReadLine());
-                                                cs.cancelAppointment(appid,pid);
-                                               Console.WriteLine("Appointment of id " + appid + " is cancelled successfully");
-                                                
                                             }
+                                        
+                                      Console.WriteLine("Enter the appointment id to cancel");
+                                      int appid = Convert.ToInt32(Console.ReadLine());
+                                      cs.cancelAppointment(appid,pid);
+                                      Console.WriteLine("Appointment of id " + appid + " is cancelled successfully");
+                                                
                                         
                                        
                                     }
@@ -245,7 +256,10 @@ namespace ClinicManagementClient
                                 }
                             default:
                                 {
+                                    Console.WriteLine("*****************************");
                                     Console.WriteLine("Please enter valid option");
+                                    Console.WriteLine("*****************************");
+
                                     break;
                                 }
                         }

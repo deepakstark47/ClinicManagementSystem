@@ -28,7 +28,7 @@ namespace TestingLibrary
         public void testGetAllDoctors()
         {
             int actualValue = ihome.viewDoctors().Count;
-            int expectedValue = 5;
+            int expectedValue = 7;
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -36,7 +36,7 @@ namespace TestingLibrary
         public void testGetAllPatients()
         {
             int actualValue = ihome.viewPatients().Count;
-            int expectedValue = 16;
+            int expectedValue = 2;
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -62,7 +62,7 @@ namespace TestingLibrary
         public void testGetAllDoctorsOnSpec()
         {
             int actualValue = iapp.displayDoctorsBasedOnSpecialization("General").Count;
-            int expectedValue = 1;
+            int expectedValue = 2;
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -112,7 +112,7 @@ namespace TestingLibrary
         [Test]
         public void testCancelAppointment()
         {
-            int actualValue = ican.cancelAppointment(502, 10);
+            int actualValue = ican.cancelAppointment(503, 10);
             int expectedValue = 1;
             Assert.AreEqual(expectedValue, actualValue);
         }
@@ -128,7 +128,7 @@ namespace TestingLibrary
         [Test]
         public void testValidDocId()
         {
-            bool actualValue = iapp.validateDoctorId(1004,new List<int>() { 1003,1007});
+            bool actualValue = iapp.validateDoctorId(1003,new List<int>() { 1003,1007});
             bool expectedValue = true;
             Assert.AreEqual(expectedValue, actualValue);
         }

@@ -31,6 +31,10 @@ namespace ClinicManagementLibrary
             comm.Parameters.AddWithValue("@patientId", patientId);
             comm.Parameters.AddWithValue("@cancelDate", cancelDate);
             SqlDataReader dr = comm.ExecuteReader();
+            if (!dr.HasRows)
+            {
+                throw new PatientHasNoAppointmentException("The patient has no appointments on this date");
+            }
             while (dr.Read())
             {
                 Appointments.Add(new Appointment(dr.GetInt32(0), dr.GetInt32(1), dr.GetDateTime(2),
