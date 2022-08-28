@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\LoginTest\\TestingLibrary.csproj": {}
+    "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\TestingLibrary\\TestingLibrary.csproj": {}
   },
   "projects": {
     "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\ClinicManagementLibrary\\ClinicManagementLibrary.csproj": {
@@ -64,14 +64,14 @@
         }
       }
     },
-    "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\LoginTest\\TestingLibrary.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\TestingLibrary\\TestingLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\LoginTest\\TestingLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\TestingLibrary\\TestingLibrary.csproj",
         "projectName": "TestingLibrary",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\LoginTest\\TestingLibrary.csproj",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\TestingLibrary\\TestingLibrary.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\LoginTest\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\CMS\\src\\ClinicManagementLibrary\\TestingLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

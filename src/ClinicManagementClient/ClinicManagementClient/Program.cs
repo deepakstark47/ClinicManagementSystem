@@ -248,7 +248,7 @@ namespace ClinicManagementClient
                                         Console.WriteLine("-------------------------------------");
                                         Console.WriteLine($"patient id : {p.patientId} \nfirstName : {p.firstName}\n" +
                                             $"lastName : {p.lastName} \nsex : {p.sex} \nage : {p.age} " +
-                                            $"\nDate Of Birth : {p.dob}");
+                                            $"\nDate Of Birth : {p.dob.ToShortDateString()}");
 
                                         Console.WriteLine("-------------------------------------");
                                     }
