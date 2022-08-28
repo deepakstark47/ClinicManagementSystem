@@ -12,6 +12,7 @@ namespace ClinicManagementLibrary
         static SqlConnection conn;
         static SqlCommand comm;
 
+        //method to establish sql connection
         private static SqlConnection getConnection()
         {
             conn = new SqlConnection("Data Source =.; Initial Catalog" +
@@ -19,6 +20,8 @@ namespace ClinicManagementLibrary
             conn.Open();
             return conn;
         } 
+
+        //method to verify user login
         public bool loginUser(string username, string password)
         {
             conn = getConnection();

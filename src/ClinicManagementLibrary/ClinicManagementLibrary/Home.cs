@@ -14,6 +14,8 @@ namespace ClinicManagementLibrary
         static SqlConnection conn;
         static SqlCommand comm;
         static SqlCommand comm1;
+
+        //get sql connection
         private static SqlConnection getConnection()
         {
             conn = new SqlConnection("Data Source =.; Initial Catalog" +
@@ -21,6 +23,8 @@ namespace ClinicManagementLibrary
             conn.Open();
             return conn;
         }
+
+        //method to display all the doctors 
         public List<Doctor> viewDoctors()
         {
             List<Doctor> allDoctors = new List<Doctor>();
@@ -53,6 +57,7 @@ namespace ClinicManagementLibrary
             return allDoctors;
         }
 
+        //method to validate patient details
         public bool validatePatient( string firstName,
             string lastName, string sex, int age, string dob)
         {
@@ -83,7 +88,7 @@ namespace ClinicManagementLibrary
 
         }
 
-
+        //method to add new patient to db
         public int addPatient(Patient p,out int patientid)
         {
             conn = getConnection();
@@ -108,6 +113,8 @@ namespace ClinicManagementLibrary
             return success;
         }
 
+
+        //method to view all the patients
         public List<Patient> viewPatients()
         {
             List<Patient> allPatients = new List<Patient>();

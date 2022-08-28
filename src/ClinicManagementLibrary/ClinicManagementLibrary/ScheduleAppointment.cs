@@ -12,6 +12,8 @@ namespace ClinicManagementLibrary
     {
         static SqlConnection conn;
         static SqlCommand comm;
+
+        //get the database connection
         private static SqlConnection getConnection()
         {
             conn = new SqlConnection("Data Source =.; Initial Catalog" +
@@ -20,6 +22,8 @@ namespace ClinicManagementLibrary
             return conn;
         }
 
+
+        //method to validate patient id and specification
         public bool ValidateScheduleAppointment(int patientId,string spec)
         {
             conn = getConnection();
@@ -53,6 +57,8 @@ namespace ClinicManagementLibrary
 
         }
 
+
+        //method to validate date in dd/mm/yyyy
         public bool ValidateIndianFormatDate(string date1)
         {
             DateTime date;
@@ -69,7 +75,7 @@ namespace ClinicManagementLibrary
         }
 
 
-
+        //method to display doctors based on their specialization
         public List<Doctor> displayDoctorsBasedOnSpecialization(string spec)
         {
             List<Doctor> Doctors = new List<Doctor>();
@@ -104,6 +110,8 @@ namespace ClinicManagementLibrary
             return Doctors;
         }
 
+
+        //method to get all the available slots of the doctor
         public List<Appointment> getAllSlotsForDoctor(int docid,DateTime date)
         {
             List<Appointment> Appointments = new List<Appointment>();
@@ -129,6 +137,8 @@ namespace ClinicManagementLibrary
 
         }
 
+
+        //method to book an appointment
         public int bookAppointment(int aptId,int patientId,List<int> validAppointmentIds)
         {
             if (!validAppointmentIds.Contains(aptId))
@@ -148,6 +158,8 @@ namespace ClinicManagementLibrary
             throw new AppointmentIdNotValidException("Appointment id not valid pls enter valid id");
         }
 
+
+        //method to validate dates between 26/08/2022 to 03/09/2022
         public bool ValidateDateForApp(string date)
         {
             List<string> ValidDates = new List<string>() { "26/08/2022","27/08/2022" ,"28/08/2022", 
@@ -159,6 +171,8 @@ namespace ClinicManagementLibrary
             throw new ValidDateException("Pls Enter Date Between 26/08/2022 - 03/09/2022");
         }
 
+
+        //method to validate doctor id is under that specialization
         public bool validateDoctorId(int docid,List<int> validDocIds)
         {
             if (validDocIds.Contains(docid))

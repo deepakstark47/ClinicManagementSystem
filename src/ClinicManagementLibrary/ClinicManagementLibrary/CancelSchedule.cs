@@ -12,6 +12,8 @@ namespace ClinicManagementLibrary
     {
         static SqlConnection conn;
         static SqlCommand comm;
+       
+        //method to get database connection
         private static SqlConnection getConnection()
         {
             conn = new SqlConnection("Data Source =.; Initial Catalog" +
@@ -22,6 +24,7 @@ namespace ClinicManagementLibrary
 
 
 
+        //display all the appointments of the patient under the particular date
         public List<Appointment> displayAppointmentsOfPatient(int patientId, DateTime cancelDate)
         {
             List<Appointment> Appointments = new List<Appointment>();
@@ -44,6 +47,8 @@ namespace ClinicManagementLibrary
             return Appointments;
         }
 
+
+        //method to cancel the appointment
         public int cancelAppointment(int appid,int patient_id)
         {
             conn = getConnection();
@@ -59,6 +64,7 @@ namespace ClinicManagementLibrary
             throw new AppointmentIdNotValidException("Appointment Number Not Valid ");
         }
 
+        //method to validate the patient id
         public bool ValidatePatientId(int patientId)
         {
             conn = getConnection();
@@ -73,6 +79,8 @@ namespace ClinicManagementLibrary
             throw new PatientIdDoesNotExistException("Please enter valid patient id");
         }
 
+
+        //method to validate indian date format
         public bool ValidateIndianFormatDate(string date1)
         {
             DateTime date;
@@ -88,6 +96,8 @@ namespace ClinicManagementLibrary
             return true;
         }
 
+
+        //method to validate dates between 26/08/2022 to 03/09/2022
         public bool ValidateDateForApp(string date)
         {
             List<string> ValidDates = new List<string>() { "26/08/2022","27/08/2022" ,"28/08/2022",
