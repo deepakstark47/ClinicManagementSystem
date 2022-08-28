@@ -23,7 +23,8 @@ namespace ClinicManagementLibrary
         public bool ValidateScheduleAppointment(int patientId,string spec)
         {
             conn = getConnection();
-            comm = new SqlCommand("select * from patients where patient_id =@patientId", conn);
+            comm = new SqlCommand("sp_selectPatientById", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@patientId", patientId);
             SqlDataReader dr = comm.ExecuteReader();
             if (!dr.HasRows)
@@ -74,7 +75,8 @@ namespace ClinicManagementLibrary
             List<Doctor> Doctors = new List<Doctor>();
 
             conn = getConnection();
-            comm = new SqlCommand("select * from doctors where specialization = @specialization", conn);
+            comm = new SqlCommand("sp_selectDoctorsSpec", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@specialization",spec);
             SqlDataReader dr = comm.ExecuteReader();
             int doctorId;
@@ -107,8 +109,9 @@ namespace ClinicManagementLibrary
             List<Appointment> Appointments = new List<Appointment>();
 
             conn = getConnection();
-            comm = new SqlCommand("select * from appointments where doctor_id=@docid and apt_status='Available' and date_of_visit =@date");
+            comm = new SqlCommand("sp_selectFreeAppointments");
             comm.Connection = conn;
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@docid", docid);
             comm.Parameters.AddWithValue("@date", date);
             SqlDataReader dr =comm.ExecuteReader();
@@ -129,7 +132,8 @@ namespace ClinicManagementLibrary
                 throw new AppointmentIdNotValidException("Appointment id not valid pls enter valid id");
             }
             conn = getConnection();
-            comm = new SqlCommand("update appointments set apt_status='booked',patient_id=@patientId where aptId=@aptId", conn);
+            comm = new SqlCommand("sp_updateAppointmentStatusBooked", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@aptId",aptId);
             comm.Parameters.AddWithValue("@patientId", patientId);
             int success = comm.ExecuteNonQuery();

@@ -25,7 +25,8 @@ namespace ClinicManagementLibrary
         {
             List<Doctor> allDoctors = new List<Doctor>();
             conn = getConnection();
-            comm = new SqlCommand("select * from doctors", conn);
+            comm = new SqlCommand("sp_selectAllDoctors", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             SqlDataReader dr = comm.ExecuteReader();
             int doctorId;
             string firstName;
@@ -86,7 +87,8 @@ namespace ClinicManagementLibrary
         public int addPatient(Patient p,out int patientid)
         {
             conn = getConnection();
-            comm = new SqlCommand("insert into patients(firstname,lastname,sex,age,dob) values(@firstName,@lastName,@sex,@age,@dob)");
+            comm = new SqlCommand("sp_addPatients");
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Connection = conn;
             comm.Parameters.AddWithValue("@firstName",p.firstName);
             comm.Parameters.AddWithValue("@lastName", p.lastName);

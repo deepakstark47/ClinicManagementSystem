@@ -43,7 +43,8 @@ namespace ClinicManagementLibrary
         public int cancelAppointment(int appid,int patient_id)
         {
             conn = getConnection();
-            comm = new SqlCommand("update appointments set apt_status='Available',patient_id=null where aptId=@appid and patient_id=@patient_id", conn);
+            comm = new SqlCommand("sp_cancelAppointment", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@appid", appid);
             comm.Parameters.AddWithValue("@patient_id", patient_id);
             int success = comm.ExecuteNonQuery();
@@ -57,7 +58,8 @@ namespace ClinicManagementLibrary
         public bool ValidatePatientId(int patientId)
         {
             conn = getConnection();
-            comm = new SqlCommand("select * from patients where patient_id =@patientId", conn);
+            comm = new SqlCommand("sp_selectPatientById", conn);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@patientId", patientId);
             SqlDataReader dr = comm.ExecuteReader();
             if (dr.HasRows)

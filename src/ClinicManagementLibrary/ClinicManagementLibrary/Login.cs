@@ -22,7 +22,8 @@ namespace ClinicManagementLibrary
         public bool loginUser(string username, string password)
         {
             conn = getConnection();
-            comm = new SqlCommand("select * from users where username=@username and password=@password");
+            comm = new SqlCommand("sp_loginUser");
+            comm.CommandType=System.Data.CommandType.StoredProcedure;
             comm.Connection = conn;
             comm.Parameters.AddWithValue("username", username);
             comm.Parameters.AddWithValue("password", password);

@@ -1,24 +1,36 @@
 use clinicmanagement;
 
-
+--creating users table with respective validations(constraints)
 create table users(username varchar(10) unique CONSTRAINT check_username check(username not LIKE '%[^a-zA-Z0-9]%'),firstname varchar(25),lastname varchar(25),
 password varchar(30) CONSTRAINT check_password check(password like '%@%'));
 
+--inserting the user values
 insert into users values('deepak1','deepak','kumar','deepak@12345');
 insert into users values('basid2','basid','mohammed','basid@12345');
 insert into users values('santo3','santo','brighton','santo@12345');
 insert into users values('atul4','atul','lakkapragada','atul@12345');
 
+--select the users table
 select * from users;
 
-drop table users;
+--stored procedure to login user
+create procedure sp_loginUser(@username varchar(10),@password varchar(30))
+as
+select * from users where username=@username and password=@password
+
+exec sp_loginUser 'deepak1','deepak@12345'
 
 
 
+
+
+
+--creating doctors table with respective validations(constraints)
 create table doctors (doctor_id int primary key, firstname varchar(20) constraint check_firstname check(firstname not like '%[^a-zA-Z0-9]%'), 
 lastname varchar(20) constraint check_lastname check(lastname not like '%[^a-zA-Z0-9]%'), 
 sex varchar(7), specialization varchar(50), visiting_from time ,visiting_to time);
 
+--inserting the doctor values into table
 insert into doctors values(1001,'Mohan','Lal','M','Ortho','17:00','19:00');
 insert into doctors values(1002,'Kabir','Singh','M','Pediatrics','18:00','20:00');
 insert into doctors values(1003,'Rahman','Shah','M','General','16:00','18:00');
@@ -27,36 +39,52 @@ insert into doctors values(1005,'Shardhul','Sinha','M','Opthalmology','20:00','2
 insert into doctors values(1006,'Mary','Jane','F','Ortho','06:00','08:00');
 insert into doctors values(1007,'Rahul','Gandhi','M','General','02:00','05:00');
 
-
-
-
---drop table doctors;
+--selecting all the doctors
 select * from doctors;
-select DATEDIFF(hour, CONVERT(datetime,visiting_from), CONVERT(datetime,visiting_to)) AS difference
-FROM doctors;
+
+--stored procedure for selecting all doctors
+create procedure sp_selectAllDoctors
+as
+select * from doctors;
+
+exec sp_selectAllDoctors
+
+--stored procedure to select doctors based on specialization
+create procedure sp_selectDoctorsSpec(@specialization varchar(50))
+as
+select * from doctors where specialization = @specialization
 
 
 
-
-
-
+--creating patients table with respective validations(constraints)
 create table patients (patient_id int identity(10,1) primary key, firstname varchar(20) constraint check_firstname_patient check(firstname not like '%[^a-zA-Z0-9]%'),
 lastname varchar(20) constraint check_lastname_patient check(lastname not like '%[^a-zA-Z0-9]%'), sex varchar(7),
 age int constraint check_age_patient check(age between 0 and 120), dob date)
 
-
-insert into patients values(102,'Raj','Kumar','M',120,'2000/10/11');
-
-truncate table patients;
-
-drop table patients;
+--select all the patients values
 select * from patients;
-delete from patients where patient_id =13
 
 
+--store procedure for inserting an patient
+create procedure sp_addPatients(@firstname varchar(20),@lastname varchar(20),@sex varchar(7),@age int,@dob date)
+as
+insert into patients(firstname,lastname,sex,age,dob) values(@firstName,@lastName,@sex,@age,@dob)
+
+exec sp_addPatients 'Kumar','Ramasamy','M',25,'1997-12-22'
+
+--stored procedure to select a patient based on id
+create procedure sp_selectPatientById(@patientId int)
+as
+select * from patients where patient_id = @patientId
+
+
+
+
+--create apppointment table based on constraints 
 create table Appointments (aptID int identity(500,1) primary key,doctor_id int foreign key(doctor_id) 
 references doctors(doctor_id),Date_of_visit Date,timeslot varchar(30),apt_status varchar(30),patient_id int foreign key references Patients(patient_id));
 
+--inserting all slots for 26/08/2022 - 03/08/2022
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1001,'2022-08-26','17-18','Available',null);
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1001,'2022-08-26','18-19','Available',null);
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1002,'2022-08-26','18-19','Available',null);
@@ -72,9 +100,6 @@ insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id)
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1007,'2022-08-26','02-03','Available',null);
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1007,'2022-08-26','03-04','Available',null);
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1007,'2022-08-26','04-05','Available',null);
-
-
-
 
 
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1001,'2022-08-27','17-18','Available',null);
@@ -210,7 +235,21 @@ insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id)
 insert into appointments(doctor_id,date_of_visit,timeslot,apt_status,patient_id) values(1007,'2022-09-03','04-05','Available',null);
 
 
-
+--select all the appointments
 select * from Appointments;
-truncate table appointments;
-drop table appointments;
+
+--select all available appointments on particular date for doctor
+create procedure sp_selectFreeAppointments(@docid int,@date date)
+as
+select * from appointments where doctor_id=@docid and apt_status='Available' and date_of_visit =@date
+
+
+--book appointment based on aptId
+create procedure sp_updateAppointmentStatusBooked(@patientId int , @aptId int)
+as
+update appointments set apt_status='booked',patient_id=@patientId where aptId=@aptId
+
+--cancel appointment
+create procedure sp_cancelAppointment(@appid int,@patient_id int)
+as
+update appointments set apt_status='Available',patient_id=null where aptId=@appid and patient_id=@patient_id
